@@ -1,0 +1,35 @@
+/* 폰트 s*/
+@font-face {
+	font-family: "sbAggroB";
+	src: url("/assets/fonts/sbAggroB.ttf") format("truetype");
+	font-weight: normal;
+}
+@font-face {
+	font-family: "sbAggroL";
+	src: url("/assets/fonts/sbAggroL.ttf") format("truetype");
+	font-weight: normal;
+}
+@font-face {
+	font-family: "sbAggroM";
+	src: url("/assets/fonts/sbAggroM.ttf") format("truetype");
+	font-weight: normal;
+}
+
+body{
+	background: black;
+	font-family: 'sbAggroL';
+}
+.sbAggroB{
+	font-family: 'sbAggroB';
+}
+.sbAggroL{
+	font-family: 'sbAggroL';
+}
+.sbAggroM{
+	font-family: 'sbAggroM';
+}
+
+.fs-085{
+	font-size: 0.85rem !important;
+}
+

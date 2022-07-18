@@ -1,0 +1,165 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- head -->
+<head th:replace="fragment/header :: head"></head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<!-- header -->
+		<header th:replace="fragment/header :: header"></header>
+		
+		<main class="p-3">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<h1>지갑주소입력</h1>
+						<div class="input-group mb-3">
+							<input type="text"
+								class="form-control form-control-dark text-white bg-dark"
+								id="address" name="address"
+								placeholder="Enter wallet address or KNS..."
+								onclick="connect();"
+								onkeyup="if(window.event.keyCode==13){search()}">
+							<button class="btn btn-outline-light text-white bg-dark" type="button"
+								onclick="search();">
+								<i class="fas fa-search"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div id="resultDiv"></div>
+			</div>
+		</main>
+
+		<!-- footer -->
+		<footer th:replace="fragment/footer :: footer"></footer>
+	</div>
+</body>
+<script>
+async function connect() {
+	let address = $("#address").val();
+	
+	if(address == ""){
+		const accounts = await klaytn.enable();
+	    
+	    if (klaytn.networkVersion === 8217) {
+	        console.log("메인넷");
+	    } else {
+	        alert("ERROR: 클레이튼 네트워크로 연결되지 않았습니다!");
+	        return;
+	    }
+	    
+	    address = accounts[0];
+	    if(address != ""){
+		    $("#address").val(address);
+	    }
+	}
+}
+
+
+function search(){
+	const address = $("#address").val();
+	
+	if(address == ""){
+		alert("지갑주소를 입력해주세요.");
+		return;
+	}
+	if(!isAddress(address)){
+		alert("지갑주소를 확인해주세요.");
+		return;
+	}
+	
+	$.ajax({
+		type : "POST",
+		url : "/search",
+		data : {
+			address : address
+		},
+		success : function(data) {
+			let html = "";
+			
+			if(data.length < 1){
+				html += "<div class='col'>";
+				html += "	<div>검색결과가 없습니다.</div>"
+				html += "</div>";
+			}else{
+				html += '<div class="row mb-2 text-muted fs-085">'
+				html += '	<div class="col text-muted fs-085">※샌드박스 네트워크가 인정하는 홀딩 기간과 다를 수 있음을 알립니다.</div>'
+				html += '</div>'
+				$(data).each(function(){
+					html += '<div class="row mb-2">'
+					html += '	<div class="col">'
+					html += '		<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">'
+					html += '			<div class="col-4">'
+					html += '				<img src="'+ this.image +'" style="width:100%;">'
+					html += '			</div>'
+					html += '			<div class="col d-flex flex-column position-static">'
+					html += '				<h4 class="mt-auto mb-0">'+ this.name +'</h4>'
+					html += '				<div class="mb-1 text-muted fs-085">'+ this.startDate +' ~ '+ this.today +'</div>'
+					html += '				<p class="card-text mb-1 d-none d-lg-block">'+ this.sec +' 초</p>'
+					html += '				<p class="card-text mb-1 d-none d-lg-block">'+ this.min +' 분</p>'
+					html += '				<p class="card-text mb-1 d-none d-lg-block">'+ this.hour +' 시</p>'
+					html += '				<p class="card-text mb-auto">'+ this.day +' 일</p>'
+					html += '			</div>'
+					html += '		</div>'
+					html += '	</div>'
+					html += '</div>'
+				});
+			}
+			$("#resultDiv").html(html);
+		},
+		error : function(data){
+			alert("error");
+		}
+	});
+};
+
+
+/**
+ * Checks if the given string is an address
+ *
+ * @method isAddress
+ * @param {String} address the given HEX address
+ * @return {Boolean}
+ */
+const isAddress = function(address) {
+    // check if it has the basic requirements of an address
+    if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+        return false
+        // If it's ALL lowercase or ALL upppercase
+    }
+    if (/^(0x|0X)?[0-9a-f]{40}$/.test(address) || /^(0x|0X)?[0-9A-F]{40}$/.test(address)) {
+        return true
+        // Otherwise check each case
+    }
+//     return checkAddressChecksum(address)
+    return true
+}
+
+// /**
+//  * Checks if the given string is a checksummed address
+//  *
+//  * @method checkAddressChecksum
+//  * @param {String} address the given HEX address
+//  * @return {Boolean}
+//  */
+// const checkAddressChecksum = function(address) {
+//     // Check each case
+//     address = address.replace(/^0x/i, '')
+//     const addressHash = sha3(address.toLowerCase()).replace(/^0x/i, '')
+
+//     for (let i = 0; i < 40; i++) {
+//         // the nth letter should be uppercase if the nth digit of casemap is 1
+//         if (
+//             (parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) ||
+//             (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])
+//         ) {
+//             return false
+//         }
+//     }
+//     return true
+// }
+</script>
+
+</html>
