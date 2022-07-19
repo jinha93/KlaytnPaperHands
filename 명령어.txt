@@ -1,0 +1,15 @@
+43.200.80.85
+
+1. jar저장된 경로로 이동 :
+- cd /home/ec2-user
+
+2. 서버 실행 : 
+- java -jar KlaytnPaperHands-0.0.1-SNAPSHOT.jar
+
+3.백그라운드 서버 실행 : 
+- nohup java -jar KlaytnPaperHands-0.0.1-SNAPSHOT.jar &
+- (nohup java -jar KlaytnPaperHands-0.0.1-SNAPSHOT.jar & > /dev/null : log없음)
+
+4.백그라운드 서버 종료 : 
+- PID 조회 : ps -ef | grep KlaytnPaperHands-0.0.1-SNAPSHOT.jar
+- 서버종료 : kill -9 {PID}
