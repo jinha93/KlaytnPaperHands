@@ -29,6 +29,11 @@ public class HomeController {
 		return "index";
 	}
 	
+	@GetMapping("/millo")
+	public String milloFanGame() {
+		return "millo";
+	}
+	
 	@PostMapping("search")
 	@ResponseBody
 	public List<HashMap<String,Object>> search(@RequestParam HashMap<String,Object> param) {
