@@ -2,6 +2,7 @@ package com.kph.controller;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +34,11 @@ public class HomeController {
 	@GetMapping("/millo")
 	public String milloFanGame() {
 		return "millo";
+	}
+	
+	@GetMapping("/namecard")
+	public String namecard() {
+		return "namecard";
 	}
 	
 	@PostMapping("search")
