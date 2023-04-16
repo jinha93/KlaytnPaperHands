@@ -1,2 +1,8 @@
-# KlaytnPaperHands
-KlaytnPaperHands
+# 메타토이드래곤즈 홀딩기간 검색기
+> Kaikas API를 이용한 MetaToyDragonz 홀딩 기간 검색기 프로젝트
+
+메타토이드래곤즈 공식 홀딩 기간 검색 기능이 없을 당시 홀더들을 위해 만든 홀딩기간검색기 프로젝트 입니다.
+지갑주소를 입력하여, 나의 메타토이드래곤즈 NFT의 마지막 Transfer 이후 지금까지의 기간을 표시해줍니다.
+
+![](header.png)
+![](../header.png)
